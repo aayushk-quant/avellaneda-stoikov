@@ -16,6 +16,8 @@ class Simulator:
         for _ in range(self.n_simulations):
             inventory = initial_inventory
             cash = initial_cash
+            self.agent.inventory = initial_inventory
+            self.agent.cash = initial_cash
             self.market.mid_price = initial_mid_price
             sim_q = []
             sim_x = []
