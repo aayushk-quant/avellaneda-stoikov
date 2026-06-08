@@ -6,7 +6,7 @@ class Simulator:
         self.n_simulations = n_simulations
         self.agent = agent
         self.market = market
-    def market_simulation(self):
+    def market_simulation(self, naive = False):
         initial_inventory = self.agent.inventory
         initial_cash = self.agent.cash
         initial_mid_price = self.market.mid_price
@@ -24,7 +24,10 @@ class Simulator:
             sim_x = []
             sim_s = []
             for i in range(int(self.agent.T / self.market.dt)):
-                bid, ask = self.agent.optimal_bid_ask(self.market.mid_price, self.market.dt * i)
+                if not naive:
+                    bid, ask = self.agent.optimal_bid_ask(self.market.mid_price, self.market.dt * i)
+                else:
+                    bid, ask = self.agent.naive_bid_ask(self.market.mid_price, self.market.dt * i)
                 bid_draw, ask_draw = self.market.order_arrival(bid, ask)
                 if bid_draw:
                     inventory += 1
@@ -42,4 +45,7 @@ class Simulator:
             final_inv.append(inventory)
             final_prof.append(final_wealth - initial_wealth)
             final_mid_price.append(self.market.mid_price)
+        self.agent.inventory = initial_inventory
+        self.agent.cash = initial_cash
+        self.market.mid_price = initial_mid_price
         return final_inv, final_prof, final_mid_price
