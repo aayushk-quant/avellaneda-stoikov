@@ -1,4 +1,3 @@
-import numpy as np
 from agent import Agent
 from market import Market
 
@@ -7,3 +6,36 @@ class Simulator:
         self.n_simulations = n_simulations
         self.agent = agent
         self.market = market
+    def market_simulation(self):
+        initial_inventory = self.agent.inventory
+        initial_cash = self.agent.cash
+        initial_mid_price = self.market.mid_price
+        final_inv = []
+        final_prof = []
+        final_mid_price = []
+        for _ in range(self.n_simulations):
+            inventory = initial_inventory
+            cash = initial_cash
+            self.market.mid_price = initial_mid_price
+            sim_q = []
+            sim_x = []
+            sim_s = []
+            for i in range(int(self.agent.T / self.market.dt)):
+                bid, ask = self.agent.optimal_bid_ask(self.market.mid_price, self.market.dt * i)
+                bid_draw, ask_draw = self.market.order_arrival(bid, ask)
+                if bid_draw:
+                    inventory += 1
+                    cash -= bid
+                if ask_draw:
+                    inventory -= 1
+                    cash += ask
+                self.agent.inventory = inventory
+                sim_q.append(inventory)
+                self.agent.cash = cash
+                sim_x.append(cash)
+                self.market.mid_price_update()
+                sim_s.append(self.market.mid_price)
+            final_inv.append(sim_q[-1])
+            final_prof.append(cash + sim_q[-1] * sim_s[-1] - initial_cash)
+            final_mid_price.append(sim_s[-1])
+        return final_inv, final_prof, final_mid_price
