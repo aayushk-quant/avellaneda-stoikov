@@ -10,6 +10,7 @@ class Simulator:
         initial_inventory = self.agent.inventory
         initial_cash = self.agent.cash
         initial_mid_price = self.market.mid_price
+        initial_wealth = initial_cash + initial_inventory * initial_mid_price
         final_inv = []
         final_prof = []
         final_mid_price = []
@@ -37,7 +38,8 @@ class Simulator:
                 sim_x.append(cash)
                 self.market.mid_price_update()
                 sim_s.append(self.market.mid_price)
-            final_inv.append(sim_q[-1])
-            final_prof.append(cash + sim_q[-1] * sim_s[-1] - initial_cash)
-            final_mid_price.append(sim_s[-1])
+            final_wealth = cash + inventory * self.market.mid_price
+            final_inv.append(inventory)
+            final_prof.append(final_wealth - initial_wealth)
+            final_mid_price.append(self.market.mid_price)
         return final_inv, final_prof, final_mid_price
