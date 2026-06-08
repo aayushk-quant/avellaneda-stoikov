@@ -12,8 +12,8 @@ class Market:
     def order_arrival(self, bid, ask):
         bid_rate = self.A * np.exp(-self.k * (self.mid_price - bid))
         ask_rate = self.A * np.exp(-self.k * (ask - self.mid_price))
-        bid_pr = self.dt * bid_rate
-        ask_pr = self.dt * ask_rate
+        bid_pr = min(1, self.dt * bid_rate)
+        ask_pr = min(1, self.dt * ask_rate)
         bid_draw = np.random.random() < bid_pr
         ask_draw = np.random.random() < ask_pr
         return bid_draw, ask_draw
