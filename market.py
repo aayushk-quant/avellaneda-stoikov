@@ -2,6 +2,16 @@ import numpy as np
 
 class Market:
     def __init__(self, k, A, mid_price, sigma, dt):
+        if k <= 0:
+            raise ValueError("k must be positive")
+        if A <= 0:
+            raise ValueError("A must be positive")
+        if mid_price <=  0:
+            raise ValueError("Mid-price must be positive")
+        if sigma < 0:
+            raise ValueError("sigma must be non-negative")
+        if dt <= 0:
+            raise ValueError("dt must be positive, and can't be too small")
         self.k = k
         self.A = A
         self.mid_price = mid_price
