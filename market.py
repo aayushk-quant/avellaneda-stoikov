@@ -11,7 +11,7 @@ class Market:
         if sigma < 0:
             raise ValueError("sigma must be non-negative")
         if dt <= 0:
-            raise ValueError("dt must be positive, and can't be too small")
+            raise ValueError("dt must be positive")
         self.k = k
         self.A = A
         self.mid_price = mid_price
