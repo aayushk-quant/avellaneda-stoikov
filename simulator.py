@@ -7,7 +7,7 @@ class Simulator:
         self.n_simulations = n_simulations
         self.agent = agent
         self.market = market
-    def market_simulation(self, naive = False, record_path = False, seed = None):
+    def market_simulation(self, naive = False, record_path = False, seed = None, record_inventory=False):
         np.random.seed(seed)
         initial_inventory = self.agent.inventory
         initial_cash = self.agent.cash
@@ -17,6 +17,9 @@ class Simulator:
         final_prof = []
         final_mid_price = []
         path_data = None
+        all_inv_paths = []
+        if record_path and record_inventory:
+            raise ValueError('use record_path for single path data, record_inventory for all paths')
         for n in range(self.n_simulations):
             inventory = initial_inventory
             cash = initial_cash
@@ -56,10 +59,14 @@ class Simulator:
             final_mid_price.append(self.market.mid_price)
             if n == 0 and record_path:
                 path_data = sim_q, sim_x, sim_s, bid_path, ask_path, reservation_path
+            if record_inventory:
+                all_inv_paths.append(sim_q)
         self.agent.inventory = initial_inventory
         self.agent.cash = initial_cash
         self.market.mid_price = initial_mid_price
         if record_path:
             return final_inv, final_prof, final_mid_price, path_data
+        if record_inventory:
+            return final_inv, final_prof, final_mid_price, all_inv_paths
         else:
             return final_inv, final_prof, final_mid_price
