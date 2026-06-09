@@ -22,14 +22,14 @@ def plot_figure2(profit_inv, profit_nai):
     plt.show()
 
 def plot_inventory_paths(all_inv_paths, naive_all_inv_paths, T):
-    avg_inv_path = np.mean(abs(np.array(all_inv_paths)), axis = 0)
-    naive_avg_inv_path = np.mean(abs(np.array(naive_all_inv_paths)), axis = 0)
+    avg_inv_path = np.mean(np.abs(np.array(all_inv_paths)), axis = 0)
+    naive_avg_inv_path = np.mean(np.abs(np.array(naive_all_inv_paths)), axis = 0)
     if len(naive_avg_inv_path) != len(avg_inv_path):
         raise ValueError('To compare the simulations must be the same')
     time = np.linspace(0, T, len(avg_inv_path))
     plt.figure(figsize=(10, 6))
-    plt.plot(time, avg_inv_path, label = 'Average absolute value of inventory held by inventory strategy')
-    plt.plot(time, naive_avg_inv_path, label = 'Average absolute value of inventory held by symmetric strategy')
+    plt.plot(time, avg_inv_path, label='Inventory strategy')
+    plt.plot(time, naive_avg_inv_path, label='Symmetric strategy')
     plt.xlabel('Time')
     plt.ylabel('Average absolute inventory')
     plt.legend()
