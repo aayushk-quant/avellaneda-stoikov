@@ -1,12 +1,14 @@
 from agent import Agent
 from market import Market
+import numpy as np
 
 class Simulator:
     def __init__(self, n_simulations, agent, market):
         self.n_simulations = n_simulations
         self.agent = agent
         self.market = market
-    def market_simulation(self, naive = False, record_path = False):
+    def market_simulation(self, naive = False, record_path = False, seed = None):
+        np.random.seed(seed)
         initial_inventory = self.agent.inventory
         initial_cash = self.agent.cash
         initial_mid_price = self.market.mid_price
