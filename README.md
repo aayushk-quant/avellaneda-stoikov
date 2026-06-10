@@ -1,5 +1,5 @@
 # Avellaneda-Stoikov Market-Making Model
-Python implementation of the Avellaneda-Stoikov (2006) high-frequency market-making model. Derives optimal bid/ask quotes using inventory-adjusted reservation prices and exponential order arrival rates, with Monte Carlo simulation and comparison against a symmetric benchmark strategy.
+Python implementation of the Avellaneda-Stoikov high-frequency market-making model, based on the 2006 working paper and 2008 Quantitative Finance publication. Derives optimal bid/ask quotes using inventory-adjusted reservation prices and exponential order arrival rates, with Monte Carlo simulation and comparison against a symmetric benchmark strategy.
 
 
 ## Features
@@ -101,7 +101,7 @@ avellaneda-stoikov/
 │   └── Computes reservation price and bid/ask spread for both strategies.
 │
 ├── market.py
-│   └── Computes the mid-price and handles the order arrival flow via a Poisson process.
+│   └── Computes the mid-price and discrete-time order arrival process.
 │
 ├── simulator.py
 │   └── Runs Monte Carlo simulations of a LOB market in order to compute required outputs for analysis.
@@ -146,6 +146,11 @@ python experiments.py
 | `dt` | 0.005 | Time step |
 | `n_simulations` | 1000 | Number of Monte Carlo runs |
 
+**Run the test suite:**
+```bash
+python -m pytest -q
+```
+
 ## Implementation Notes
 
 - **Linear approximation of order arrival terms**: follows the paper's approach (equation 3.14), giving the closed-form spread in equation 3.18 rather than requiring numerical PDE solving
@@ -161,8 +166,8 @@ python experiments.py
 
 ## Future Extensions
 
-- Vectorisation of some loops to improve computational speeds: since mid-market price updates are independent can compute them before the for loop.
-- Coupled order arrivals: can be implemented since it is unrealistic that an agent will exercise both a bid and ask order in the same timeframe. The paper however does compute bid and ask order arrivals as independent events so the current model is more faithful to their interpretation.
+- Vectorisation of some loops to improve computational speed: since mid-market price updates are independent, they can be computed before the for loop.
+- Coupled order arrivals: this can be implemented since it is unrealistic that both a bid and ask order are filled in the same timeframe. The paper however does compute bid and ask order arrivals as independent events, so the current model is more faithful to their interpretation.
 - Terminal inventory liquidation penalty: since high inventory close to the horizon T is harder to liquidate, we could introduce a parameter like $$\alpha q_T^2$$ in order to better reflect the true wealth of the agent.
 
 
@@ -171,6 +176,7 @@ python experiments.py
 - Python 3
 - NumPy
 - Matplotlib
+- pytest
 
 ## References
 
