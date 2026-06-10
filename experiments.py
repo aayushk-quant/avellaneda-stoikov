@@ -17,4 +17,7 @@ def run_gamma_experiment(gamma_values, sigma = 2, T = 1, k = 1.5, A = 140, mid_p
         print(f"{'Symmetric':<12}{np.mean(naive_prof):<12.2f}{np.std(naive_prof):<14.2f}{np.mean(naive_inv):<12.2f}{np.std(naive_inv):<14.2f}")
 
 if __name__ == "__main__":
-    run_gamma_experiment([0.01, 0.1, 0.5, 5, 10])       
+    print("=== Paper replication ===")
+    run_gamma_experiment([0.01, 0.1, 0.5])
+    print("\n=== Stress test (extreme risk aversion) ===")
+    run_gamma_experiment([1, 5, 10])   
