@@ -12,6 +12,7 @@ The project includes:
 - Gamma sensitivity experiment (paper replication + stress test)
 - Reproducible results via optional random seeding
 - Input validation on all model parameters
+- Basic pytest suite covering formulas, reproducibility and inventory-risk behaviour
 
 ## Model
 
@@ -113,6 +114,10 @@ avellaneda-stoikov/
 │
 ├── main.py
 │   └── Example usage, model comparison and output plots.
+
+├── tests/
+│   └── test_model.py
+│       └── Basic tests for formula correctness, reproducibility and strategy behaviour.
 │
 └── README.md
 ```
