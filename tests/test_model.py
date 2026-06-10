@@ -5,7 +5,6 @@ from agent import Agent
 from market import Market
 from simulator import Simulator
 
-
 def test_reservation_price_formula():
     agent = Agent(inventory=5, cash=0, sigma=2, gamma=0.1, T=1, k=1.5)
 
@@ -13,7 +12,6 @@ def test_reservation_price_formula():
 
     expected = 100 - 5 * 0.1 * (2 ** 2) * (1 - 0.25)
     assert result == pytest.approx(expected)
-
 
 def test_optimal_spread_decreases_over_time():
     agent = Agent(inventory=0, cash=0, sigma=2, gamma=0.1, T=1, k=1.5)
@@ -24,7 +22,6 @@ def test_optimal_spread_decreases_over_time():
 
     assert spread_start > spread_mid > spread_end
 
-
 def test_seed_reproducibility():
     agent = Agent(0, 0, 2, 0.1, 1, 1.5)
     market = Market(1.5, 140, 100, 2, 0.005)
@@ -34,7 +31,6 @@ def test_seed_reproducibility():
     result_2 = simulator.market_simulation(seed=42)
 
     assert result_1 == result_2
-
 
 def test_inventory_strategy_has_lower_inventory_risk_than_symmetric_strategy():
     agent = Agent(0, 0, 2, 0.1, 1, 1.5)

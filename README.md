@@ -12,7 +12,7 @@ The project includes:
 - Gamma sensitivity experiment (paper replication + stress test)
 - Reproducible results via optional random seeding
 - Input validation on all model parameters
-- Basic pytest suite covering formulas, reproducibility and inventory-risk behaviour
+- Basic pytest suite with 89% coverage across the core model files
 
 ## Model
 
@@ -146,9 +146,18 @@ python experiments.py
 | `dt` | 0.005 | Time step |
 | `n_simulations` | 1000 | Number of Monte Carlo runs |
 
-**Run the test suite:**
+## Testing
+
+The project includes a small pytest suite covering formula correctness, spread behaviour, random seed reproducibility, and the inventory-risk comparison between the inventory-sensitive and symmetric strategies.
+
 ```bash
 python -m pytest -q
+```
+
+Test coverage for the core model files (`agent.py`, `market.py`, and `simulator.py`) is currently 89%.
+
+```bash
+python -m pytest --cov=agent --cov=market --cov=simulator --cov-report=term-missing
 ```
 
 ## Implementation Notes
@@ -166,10 +175,9 @@ python -m pytest -q
 
 ## Future Extensions
 
-- Vectorisation of some loops to improve computational speed: since mid-market price updates are independent, they can be computed before the for loop.
-- Coupled order arrivals: this can be implemented since it is unrealistic that both a bid and ask order are filled in the same timeframe. The paper however does compute bid and ask order arrivals as independent events, so the current model is more faithful to their interpretation.
+- Vectorisation of some loops to improve computational speed: since mid-market price updates are independent, they can be computed before the main simulation loop.
+- Coupled order arrivals: this can be implemented since it is unrealistic that both a bid and ask order are filled in the same time step. The paper, however, computes bid and ask order arrivals as independent events, so the current model is more faithful to their interpretation.
 - Terminal inventory liquidation penalty: since high inventory close to the horizon T is harder to liquidate, we could introduce a parameter like $$\alpha q_T^2$$ in order to better reflect the true wealth of the agent.
-
 
 ## Technologies
 
