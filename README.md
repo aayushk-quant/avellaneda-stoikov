@@ -114,7 +114,7 @@ avellaneda-stoikov/
 │
 ├── main.py
 │   └── Example usage, model comparison and output plots.
-
+│
 ├── tests/
 │   └── test_model.py
 │       └── Basic tests for formula correctness, reproducibility and strategy behaviour.
